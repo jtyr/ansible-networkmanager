@@ -1,0 +1,9 @@
+---
+
+- name: Restart NetworkManager service
+  service:
+    name: "{{ networkmanager_service }}"
+    state: restarted
+  when: >
+    networkmanager_service_started is not defined or
+    not networkmanager_service_started.changed

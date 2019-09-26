@@ -1,0 +1,40 @@
+---
+
+- name: Test distribution
+  assert:
+    that: >
+      ansible_facts.os_family == 'RedHat'
+  tags:
+    - networkmanager_assert
+
+- name: Install NetworkManager
+  package:
+    name: "{{ networkmanager_pkg }}"
+  notify:
+    - Restart NetworkManager service
+  tags:
+    - networkmanager_pkg
+
+- name: Configure NetworkManager
+  template:
+    src: NetworkManager.conf.j2
+    dest: "{{ networkmanager_conf_file }}"
+  notify:
+    - Restart NetworkManager service
+  tags:
+    - networkmanager_config
+
+- name: Enable NetworkManager service
+  service:
+    name: "{{ networkmanager_service }}"
+    enabled: yes
+  tags:
+    - networkmanager_service
+
+- name: Start NetworkManager service
+  service:
+    name: "{{ networkmanager_service }}"
+    state: started
+  register: networkmanager_service_started
+  tags:
+    - networkmanager_service

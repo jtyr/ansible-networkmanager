@@ -1,0 +1,30 @@
+---
+
+# Package to be installed (you can force a specific version here)
+networkmanager_pkg: NetworkManager
+
+# Default service name
+networkmanager_service: NetworkManager
+
+# Default location of the networkmanager.conf file
+networkmanager_conf_file: /etc/NetworkManager/NetworkManager.conf
+
+
+# Default list of options for the main section
+networkmanager_config_main: {}
+
+# Default list of options for the logging section
+networkmanager_config_logging: {}
+
+# Default configuration
+networkmanager_config_default:
+  main: "{{ networkmanager_config_main }}"
+  logging: "{{ networkmanager_config_logging }}"
+
+# Custom configuration
+networkmanager_config_custom: {}
+
+# Final configuration
+networkmanager_config: "{{
+  networkmanager_config_default | combine(
+  networkmanager_config_custom) }}"
